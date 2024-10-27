@@ -1,8 +1,20 @@
-# React + Vite
+# Smart CCTV Logger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech Stack
+- ReactJS + Vite
+- shadcn-ui
+- tailwindcss
+- ExpressJS
+- Postgree / MongoDB
 
-Currently, two official plugins are available:
+## How To Run
+> Clone this repo
+```
+git clone https://github.com/mbsaloka/smart-cctv-logger.git
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> Install and run
+```
+npm install
+npm run dev
+```

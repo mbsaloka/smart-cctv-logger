@@ -1,18 +1,20 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Star, Download } from 'lucide-react'
+import { Star, Download, ChevronLeft } from 'lucide-react'
 import LogDetailModal from '../components/LogDetailModal'
 
 // Mock data for starred logs
 const mockStarredLogs = [
-  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:20:00', info: 'Student B entered', starred: true },
-  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:30:00', info: 'Student D entered', starred: true },
+  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:20:00', info: 'Student entered', starred: true },
+  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:30:00', info: 'Student entered', starred: true },
 ]
 
 export default function StarredLogsPage() {
   const [logs, setLogs] = useState(mockStarredLogs)
+
   const [search, setSearch] = useState('')
   const [selectedLog, setSelectedLog] = useState(null)
 
@@ -38,7 +40,14 @@ export default function StarredLogsPage() {
 
   return (
     <div className="space-y-6 w-full">
+      <div className="flex gap-2">
+        <Button type="submit" variant="ghost" size="icon" >
+          <Link to="/logs">
+            <ChevronLeft size={100} />
+          </Link>
+        </Button>
       <h1 className="text-3xl font-bold">Starred Logs</h1>
+      </div>
       <Input
         placeholder="Search starred logs..."
         value={search}

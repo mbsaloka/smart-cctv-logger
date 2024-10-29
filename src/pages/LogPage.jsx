@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -6,19 +7,18 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Star, Download, Grid, List } from 'lucide-react'
 import LogDetailModal from '../components/LogDetailModal'
-import { Link } from 'react-router-dom'
 
 // Mock data for logs
 const mockLogs = [
-  { id: 1, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:15:00', info: 'Student A entered', starred: false },
-  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:20:00', info: 'Student B entered', starred: true },
-  { id: 3, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:25:00', info: 'Student C entered', starred: false },
-  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:30:00', info: 'Student D entered', starred: true },
+  { id: 1, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:15:00', info: 'Student entered', starred: false },
+  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:20:00', info: 'Student entered', starred: true },
+  { id: 3, image: '/placeholder.svg?height=100&width=100', date: '2024-11-27', time: '10:25:00', info: 'Student entered', starred: false },
+  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-11-27', time: '10:30:00', info: 'Student entered', starred: true },
 ]
 
 export default function LogPage() {
   const [logs, setLogs] = useState(mockLogs)
-  const [view, setView] = useState('list')
+  const [view, setView] = useState('gallery')
   const [sortBy, setSortBy] = useState('date')
   const [search, setSearch] = useState('')
   const [selectedLog, setSelectedLog] = useState(null)
@@ -58,8 +58,10 @@ export default function LogPage() {
           <Button variant="outline" asChild>
             <Link to="/starred"><Star className="mr-2 h-4 w-4" />View Starred Logs</Link>
           </Button>
-          <Button variant="outline" onClick={() => setView('list')}><List className="mr-2 h-4 w-4" />List</Button>
-          <Button variant="outline" onClick={() => setView('gallery')}><Grid className="mr-2 h-4 w-4" />Gallery</Button>
+          {view === "list" ?
+            <Button variant="outline" onClick={() => setView('gallery')}><Grid className="mr-2 h-4 w-4" />Gallery</Button> :
+            <Button variant="outline" onClick={() => setView('list')}><List className="mr-2 h-4 w-4" />List</Button>
+          }
         </div>
       </div>
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">

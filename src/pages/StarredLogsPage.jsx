@@ -41,7 +41,7 @@ export default function StarredLogsPage() {
   return (
     <div className="space-y-6 w-full">
       <div className="flex gap-2">
-        <Button type="submit" variant="ghost" size="icon" >
+        <Button variant="ghost" size="icon" asChild>
           <Link to="/logs">
             <ChevronLeft size={100} />
           </Link>

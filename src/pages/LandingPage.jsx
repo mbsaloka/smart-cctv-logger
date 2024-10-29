@@ -8,14 +8,14 @@ export default function LandingPage() {
   return (
     <div className="space-y-16">
       <section className="flex flex-col items-center justify-center h-screen text-center space-y-6 px-4 transform -translate-y-24">
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent leading-normal h-14">
           Welcome to Smart CCTV Logger
         </h1>
         <p className="text-xl text-muted-foreground max-w-[700px] mx-auto">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi odit sit, eius sint totam eveniet aspernatur officia eligendi magnam facilis cum, libero error suscipit excepturi voluptatum. Natus perspiciatis ex quo!
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione ipsam eos facere natus dolorum nemo distinctio laudantium reiciendis laborum quidem nobis expedita nesciunt, nihil eligendi maiores dolores consequatur alias ea.
         </p>
         <div className="flex justify-center gap-4">
-          <Button asChild size="lg">
+          <Button asChild size="lg" >
             <Link to="/login">Get Started</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
@@ -26,9 +26,11 @@ export default function LandingPage() {
 
       <section id="learn-more" className="pb-60 space-y-16">
         <div className="text-center space-y-6">
-          <h2 className="text-3xl font-bold">Why Choose CCTV Logger?</h2>
+          <h2 className="text-3xl font-bold tracking-tight lg:text-4xl bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent h-10">
+            Why Choose CCTV Logger?
+          </h2>
           <p className="text-xl text-muted-foreground max-w-[700px] mx-auto">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex, omnis incidunt. Minus quas beatae dolorem eligendi, dolor quis nam nihil officia numquam aliquam totam facere qui accusantium modi obcaecati commodi.
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo veritatis minima expedita maiores culpa! Alias, animi accusamus? Error asperiores, quibusdam, dolorum excepturi voluptatibus a consequatur veritatis optio libero cum neque!
           </p>
         </div>
 

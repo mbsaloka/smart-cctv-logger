@@ -43,7 +43,7 @@ function Layout() {
           <Outlet />
         </div>
       </main>
-      <footer className="bg-muted w-full ">
+      <footer className="bg-muted w-full mt-12">
         <div className="container mx-auto px-4 py-6 text-center">
           <p>&copy; 2024 CCTV Logger. All rights reserved.</p>
         </div>

@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Star, Download, Grid, List } from 'lucide-react';
-import LogDetailModal from '../components/LogDetailModal';
+import LogDetailModal from '@/components/LogDetailModal';
+import DownloadButton from '@/components/DownloadButton';
 
 // Mock data for logs
 const mockLogs = [
@@ -24,6 +25,31 @@ function LogsDashboard({ isShowStarred }) {
   const [search, setSearch] = useState('');
   const [selectedLog, setSelectedLog] = useState(null);
 
+  useEffect(() => {
+    fetch('http://localhost:3000/images')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const newLogs = data.map((log) => {
+          return {
+            id: log._id,
+            image: log.imageUrl,
+            date: "2024-10-27",
+            time: "10:15:00",
+            info: "Student entered",
+            starred: false,
+          };
+        });
+        setLogs(newLogs);
+        console.log(newLogs);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   const handleSort = (value) => {
     setSortBy(value);
     // Implement sorting logic here
@@ -38,11 +64,6 @@ function LogsDashboard({ isShowStarred }) {
     setLogs(logs.map(log =>
       log.id === id ? { ...log, starred: !log.starred } : log
     ));
-  };
-
-  const handleDownload = (id) => {
-    // Implement download logic here
-    console.log('Downloading log:', id);
   };
 
   const filteredLogs = logs.filter(log =>
@@ -104,9 +125,7 @@ function LogsDashboard({ isShowStarred }) {
                     <Button variant="ghost" onClick={() => handleStar(log.id)}>
                       <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
                     </Button>
-                    <Button variant="ghost" onClick={() => handleDownload(log.id)}>
-                      <Download className="h-4 w-4" />
-                    </Button>
+                    <DownloadButton log={log} variant="ghost" />
                   </TableCell>
                 </TableRow>
               ))}
@@ -118,7 +137,10 @@ function LogsDashboard({ isShowStarred }) {
           {displayedLogs.map(log => (
             <Card key={log.id} className="flex flex-col">
               <CardContent className="p-4 flex-grow">
-                <img src={log.image} alt="CCTV capture" className="w-full h-48 object-cover rounded mb-4 cursor-pointer" onClick={() => setSelectedLog(log)} />
+                <img src={log.image} alt="CCTV capture" className="w-full h-48 object-cover rounded mb-4 cursor-pointer" onClick={() => {
+                  setSelectedLog(log);
+                  console.log(log);
+                }} />
                 <p className="font-semibold">{log.date} {log.time}</p>
                 <p className="mt-2">{log.info}</p>
               </CardContent>
@@ -126,9 +148,7 @@ function LogsDashboard({ isShowStarred }) {
                 <Button variant="ghost" onClick={() => handleStar(log.id)}>
                   <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
                 </Button>
-                <Button variant="ghost" onClick={() => handleDownload(log.id)}>
-                  <Download className="h-4 w-4" />
-                </Button>
+                <DownloadButton log={log} variant="ghost" />
               </CardFooter>
             </Card>
           ))}

@@ -2,10 +2,11 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
-function DownloadButton({ log, variant }) {
+function DownloadButton({ log, variant, type }) {
+  console.log("DOWNLOAD BUTTON");
   const fileExtension = log.image.split(".").pop();
   console.log(fileExtension);
-  const fileName = log.date + "_" + log.time + "." + fileExtension;
+  const fileName = "cctv_" + log.date + "_" + log.time + "." + fileExtension;
   console.log(fileName);
 
   const handleDownload = () => {
@@ -34,8 +35,9 @@ function DownloadButton({ log, variant }) {
 
   return (
     <div>
-      <Button variant={variant} onClicl={handleDownload} >
+      <Button variant={variant} onClick={handleDownload} >
         <Download className="h-4 w-4" />
+        {(type === "icon" ? null : "Download")}
       </Button>
     </div >
   );

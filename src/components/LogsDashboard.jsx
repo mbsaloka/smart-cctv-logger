@@ -74,7 +74,6 @@ function LogsDashboard({ isShowStarred }) {
 
   const displayedLogs = isShowStarred ? filteredLogs.filter(log => log.starred) : filteredLogs;
 
-
   return (
     <div className="space-y-6 w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
@@ -125,7 +124,7 @@ function LogsDashboard({ isShowStarred }) {
                     <Button variant="ghost" onClick={() => handleStar(log.id)}>
                       <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
                     </Button>
-                    <DownloadButton log={log} variant="ghost" />
+                    <DownloadButton log={log} variant="ghost" type="icon" />
                   </TableCell>
                 </TableRow>
               ))}
@@ -148,7 +147,7 @@ function LogsDashboard({ isShowStarred }) {
                 <Button variant="ghost" onClick={() => handleStar(log.id)}>
                   <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
                 </Button>
-                <DownloadButton log={log} variant="ghost" />
+                <DownloadButton log={log} variant="ghost" type="icon" />
               </CardFooter>
             </Card>
           ))}

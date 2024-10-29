@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Star, Download } from 'lucide-react';
+import DownloadButton from "@/components/DownloadButton";
 
 function LogDetailModal({ log, onClose }) {
   return (
@@ -25,10 +26,7 @@ function LogDetailModal({ log, onClose }) {
             <Star className={log.starred ? "fill-yellow-400 mr-2 h-4 w-4" : "mr-2 h-4 w-4"} />
             {log.starred ? 'Unstar' : 'Star'}
           </Button>
-          <Button variant="outline" onClick={() => console.log('Download clicked')}>
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
+          <DownloadButton log={log} variant="outline" />
         </DialogFooter>
       </DialogContent>
     </Dialog>

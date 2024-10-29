@@ -7,7 +7,7 @@
   :root {
     --background: 210 17% 98%;
     --foreground: 255, 7%, 11%;
-    --card: 210 17% 98%;
+    --card: 60 4.8% 95.9%;
     --card-foreground: 255, 7%, 11%;
     --popover: 210 17% 98%;
     --popover-foreground: 255, 7%, 11%;
@@ -45,7 +45,7 @@
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
-    --accent: 23 91% 53%;
+    --accent: 255 4% 20%;
     --accent-foreground: 60 9.1% 97.8%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -81,3 +81,7 @@ html {
 ::-webkit-scrollbar-thumb {
     background: #FF0000;
 }
+
+/*
+23 40% 95%
+*/

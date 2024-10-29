@@ -24,7 +24,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="learn-more" className="pb-60 space-y-16">
+      <section id="learn-more" className="pb-80 space-y-16">
         <div className="text-center space-y-6">
           <h2 className="text-3xl font-bold tracking-tight lg:text-4xl bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent h-10">
             Why Choose CCTV Logger?

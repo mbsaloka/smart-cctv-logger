@@ -1,9 +1,9 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
-import { Cctv,Moon, Sun } from 'lucide-react';
+import { Cctv, Moon, Sun } from 'lucide-react';
 
-export default function Layout() {
+function Layout() {
   const { theme, setTheme } = useTheme();
 
   const location = useLocation();
@@ -11,7 +11,7 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-        <nav className={`fixed w-full z-20 top-0 start-0 border-b ${theme === "light" ? "bg-primary text-primary-foreground" : "bg-background text-primary"}`}>
+      <nav className={`fixed w-full z-20 top-0 start-0 border-b ${theme === "light" ? "bg-primary text-primary-foreground" : "bg-background text-primary"}`}>
         <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link to={isLoggedIn ? "/home" : "/"} className="flex items-center space-x-3 rtl:space-x-reverse">
             <Cctv size={32} className="text-orange-400" />
@@ -51,3 +51,5 @@ export default function Layout() {
     </div>
   );
 }
+
+export default Layout;

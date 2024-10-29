@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Star, Download, Grid, List } from 'lucide-react'
-import LogDetailModal from '../components/LogDetailModal'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Star, Download, Grid, List } from 'lucide-react';
+import LogDetailModal from '../components/LogDetailModal';
 
 // Mock data for logs
 const mockLogs = [
@@ -14,41 +14,41 @@ const mockLogs = [
   { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:20:00', info: 'Student entered', starred: true },
   { id: 3, image: '/placeholder.svg?height=100&width=100', date: '2024-11-27', time: '10:25:00', info: 'Student entered', starred: false },
   { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-11-27', time: '10:30:00', info: 'Student entered', starred: true },
-]
+];
 
-export default function LogPage() {
-  const [logs, setLogs] = useState(mockLogs)
-  const [view, setView] = useState('gallery')
-  const [sortBy, setSortBy] = useState('date')
-  const [search, setSearch] = useState('')
-  const [selectedLog, setSelectedLog] = useState(null)
+function LogsPage() {
+  const [logs, setLogs] = useState(mockLogs);
+  const [view, setView] = useState('gallery');
+  const [sortBy, setSortBy] = useState('date');
+  const [search, setSearch] = useState('');
+  const [selectedLog, setSelectedLog] = useState(null);
 
   const handleSort = (value) => {
-    setSortBy(value)
+    setSortBy(value);
     // Implement sorting logic here
-  }
+  };
 
   const handleSearch = (value) => {
-    setSearch(value)
+    setSearch(value);
     // Implement search logic here
-  }
+  };
 
   const handleStar = (id) => {
     setLogs(logs.map(log =>
       log.id === id ? { ...log, starred: !log.starred } : log
-    ))
-  }
+    ));
+  };
 
   const handleDownload = (id) => {
     // Implement download logic here
-    console.log('Downloading log:', id)
-  }
+    console.log('Downloading log:', id);
+  };
 
   const filteredLogs = logs.filter(log =>
     log.info.toLowerCase().includes(search.toLowerCase()) ||
     log.date.includes(search) ||
     log.time.includes(search)
-  )
+  );
 
   return (
     <div className="space-y-6 w-full">
@@ -140,5 +140,7 @@ export default function LogPage() {
         <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} />
       )}
     </div>
-  )
+  );
 }
+
+export default LogsPage;

@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
-import { Link as ScrollLink } from 'react-scroll'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Camera, Shield, Clock, Search } from 'lucide-react'
+import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Camera, Shield, Clock, Search } from 'lucide-react';
 
-export default function LandingPage() {
+function LandingPage() {
   return (
     <div className="space-y-16">
       <section className="flex flex-col items-center justify-center h-screen text-center space-y-6 px-4 transform -translate-y-24">
@@ -12,7 +12,7 @@ export default function LandingPage() {
           Welcome to Smart CCTV Logger
         </h1>
         <p className="text-xl text-muted-foreground max-w-[700px] mx-auto">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione ipsam eos facere natus dolorum nemo distinctio laudantium reiciendis laborum quidem nobis expedita nesciunt, nihil eligendi maiores dolores consequatur alias ea.
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos excepturi sequi autem quidem fugiat eveniet quas quod ad tempore. Tenetur quasi, distinctio asperiores in similique iste alias aut numquam reprehenderit.
         </p>
         <div className="flex justify-center gap-4">
           <Button asChild size="lg" >
@@ -24,7 +24,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="learn-more" className="pb-60 space-y-16">
+      <section id="learn-more" className="pb-64 space-y-16">
         <div className="text-center space-y-6">
           <h2 className="text-3xl font-bold tracking-tight lg:text-4xl bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent h-10">
             Why Choose CCTV Logger?
@@ -51,5 +51,7 @@ export default function LandingPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+export default LandingPage;

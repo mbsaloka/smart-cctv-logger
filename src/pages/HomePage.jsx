@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
-import { Link as ScrollLink } from 'react-scroll'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Camera, Shield, Clock, Search } from 'lucide-react'
+import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Camera, Shield, Clock, Search } from 'lucide-react';
 
-export default function HomePage() {
+function HomePage() {
   return (
     <div className="space-y-16">
       <section className="flex flex-col items-center justify-center h-screen text-center space-y-6 px-4 transform -translate-y-24">
@@ -51,5 +51,7 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+export default HomePage;

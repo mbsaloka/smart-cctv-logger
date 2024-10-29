@@ -1,42 +1,42 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Star, Download, ChevronLeft } from 'lucide-react'
-import LogDetailModal from '../components/LogDetailModal'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Star, Download, ChevronLeft } from 'lucide-react';
+import LogDetailModal from '../components/LogDetailModal';
 
 // Mock data for starred logs
 const mockStarredLogs = [
   { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:20:00', info: 'Student entered', starred: true },
   { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-03-01', time: '09:30:00', info: 'Student entered', starred: true },
-]
+];
 
-export default function StarredLogsPage() {
-  const [logs, setLogs] = useState(mockStarredLogs)
+function StarredLogsPage() {
+  const [logs, setLogs] = useState(mockStarredLogs);
 
-  const [search, setSearch] = useState('')
-  const [selectedLog, setSelectedLog] = useState(null)
+  const [search, setSearch] = useState('');
+  const [selectedLog, setSelectedLog] = useState(null);
 
   const handleSearch = (value) => {
-    setSearch(value)
+    setSearch(value);
     // Implement search logic here
-  }
+  };
 
   const handleUnstar = (id) => {
-    setLogs(logs.filter(log => log.id !== id))
-  }
+    setLogs(logs.filter(log => log.id !== id));
+  };
 
   const handleDownload = (id) => {
     // Implement download logic here
-    console.log('Downloading log:', id)
-  }
+    console.log('Downloading log:', id);
+  };
 
   const filteredLogs = logs.filter(log =>
     log.info.toLowerCase().includes(search.toLowerCase()) ||
     log.date.includes(search) ||
     log.time.includes(search)
-  )
+  );
 
   return (
     <div className="space-y-6 w-full">
@@ -46,7 +46,7 @@ export default function StarredLogsPage() {
             <ChevronLeft size={100} />
           </Link>
         </Button>
-      <h1 className="text-3xl font-bold">Starred Logs</h1>
+        <h1 className="text-3xl font-bold">Starred Logs</h1>
       </div>
       <Input
         placeholder="Search starred logs..."
@@ -91,5 +91,7 @@ export default function StarredLogsPage() {
         <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} />
       )}
     </div>
-  )
+  );
 }
+
+export default StarredLogsPage;

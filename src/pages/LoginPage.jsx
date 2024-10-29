@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
-export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Here you would typically handle the login logic
-    console.log('Login attempted with:', username, password)
+    console.log('Login attempted with:', username, password);
     // For now, we'll just navigate to the logs page
-    navigate('/logs')
-  }
+    navigate('/logs');
+  };
 
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
@@ -56,5 +56,7 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
-  )
+  );
 }
+
+export default LoginPage;

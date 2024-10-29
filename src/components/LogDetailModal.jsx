@@ -1,8 +1,8 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Star, Download } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Star, Download } from 'lucide-react';
 
-export default function LogDetailModal({ log, onClose }) {
+function LogDetailModal({ log, onClose }) {
   return (
     <Dialog open={!!log} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
@@ -32,5 +32,7 @@ export default function LogDetailModal({ log, onClose }) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
+
+export default LogDetailModal;

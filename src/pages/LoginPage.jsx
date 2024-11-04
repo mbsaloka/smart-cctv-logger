@@ -8,14 +8,39 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically handle the login logic
-    console.log('Login attempted with:', username, password);
-    // For now, we'll just navigate to the logs page
-    navigate('/logs');
+
+    try {
+      const response = await fetch('http://localhost:3000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', result.data);
+        navigate('/logs');
+      } else {
+        setErrorMessage(result.message);
+        console.error(result.message);
+      }
+    } catch (error) {
+      setErrorMessage('Fail to logging in. Please try again.');
+      console.error("Login error:", error);
+    }
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -47,10 +72,15 @@ function LoginPage() {
                 required
               />
             </div>
+            {errorMessage && (
+              <div className="text-red-500 text-sm">
+                {errorMessage}
+              </div>
+            )}
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">
-              <Link to="/logs">Submit</Link>
+              Submit
             </Button>
           </CardFooter>
         </form>

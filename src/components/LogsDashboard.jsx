@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Star, Download, Grid, List } from 'lucide-react';
+import { Star, Grid, List } from 'lucide-react';
 import LogDetailModal from '@/components/LogDetailModal';
 import DownloadButton from '@/components/DownloadButton';
 
@@ -31,19 +31,17 @@ function LogsDashboard({ isShowStarred }) {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         const newLogs = data.map((log) => {
           return {
             id: log._id,
             image: log.imageUrl,
-            date: "2024-10-27",
-            time: "10:15:00",
+            date: log.date.substring(0, 10),
+            time: log.time,
             info: "Student entered",
             starred: false,
           };
         });
         setLogs(newLogs);
-        console.log(newLogs);
       })
       .catch((err) => {
         console.error(err);
@@ -138,7 +136,6 @@ function LogsDashboard({ isShowStarred }) {
               <CardContent className="p-4 flex-grow">
                 <img src={log.image} alt="CCTV capture" className="w-full h-48 object-cover rounded mb-4 cursor-pointer" onClick={() => {
                   setSelectedLog(log);
-                  console.log(log);
                 }} />
                 <p className="font-semibold">{log.date} {log.time}</p>
                 <p className="mt-2">{log.info}</p>

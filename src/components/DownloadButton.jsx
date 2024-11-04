@@ -3,11 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 function DownloadButton({ log, variant, type }) {
-  console.log("DOWNLOAD BUTTON");
   const fileExtension = log.image.split(".").pop();
-  console.log(fileExtension);
   const fileName = "cctv_" + log.date + "_" + log.time + "." + fileExtension;
-  console.log(fileName);
 
   const handleDownload = () => {
     fetch(log.image)
@@ -23,9 +20,6 @@ function DownloadButton({ log, variant, type }) {
 
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
-        console.log("Downloading");
-        console.log(url);
-        console.log(link);
 
       })
       .catch((error) => {

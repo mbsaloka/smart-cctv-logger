@@ -4,9 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Star, Grid, List } from 'lucide-react';
+import { Star, Grid, List, Filter } from 'lucide-react';
 import LogDetailModal from '@/components/LogDetailModal';
 import DownloadButton from '@/components/DownloadButton';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Mock data for logs
 const mockLogs = [
@@ -89,22 +95,34 @@ function LogsDashboard({ isShowStarred }) {
   return (
     <div className="space-y-6 w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <Input
-            placeholder="Search logs..."
-            value={search}
-            onChange={(e) => handleSearch(e.target.value)}
-            className="w-full sm:w-64"
-          />
-          <Select onValueChange={handleSort} defaultValue={sortBy}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="date">Date</SelectItem>
-              <SelectItem value="time">Time</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex">
+          <Filter className="mx-1 mt-[18.5px]" size={18} />
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-base">
+                <div className="mr-3 ml-2">Apply Filter</div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                  <Input
+                    placeholder="Search logs..."
+                    value={search}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="w-full sm:w-64"
+                  />
+                  <Select onValueChange={handleSort} defaultValue={sortBy}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="date">Date</SelectItem>
+                      <SelectItem value="time">Time</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
         {view === "list" ?
           <Button variant="outline" onClick={() => setView('gallery')}><Grid className="mr-2 h-4 w-4" />Gallery</Button> :

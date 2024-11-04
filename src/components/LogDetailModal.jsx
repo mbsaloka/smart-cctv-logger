@@ -7,7 +7,7 @@ import DownloadButton from "@/components/DownloadButton";
 function LogDetailModal({ log, onClose, handlePrev, handleNext }) {
   return (
     <Dialog open={!!log} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[90vh] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Log Details</DialogTitle>
           <DialogDescription>
@@ -15,7 +15,7 @@ function LogDetailModal({ log, onClose, handlePrev, handleNext }) {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
-          <img src={log.image} alt="CCTV capture" className="w-full h-96 object-cover rounded" />
+          <img src={log.image} alt="CCTV capture" className="w-full h-auto object-cover rounded" />
           <div className="space-y-2">
             <p><strong>Date:</strong> {log.date}</p>
             <p><strong>Time:</strong> {log.time}</p>

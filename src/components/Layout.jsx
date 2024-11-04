@@ -2,6 +2,17 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
 import { Cctv, Moon, Sun } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 function Layout() {
   const { theme, setTheme } = useTheme();
@@ -29,15 +40,38 @@ function Layout() {
                 </Button>
               </div>
             )}
-            <Button variant="ghost" asChild>
-              <Link to={isLoggedIn ? "/" : "/login"}>{isLoggedIn ? "Logout" : "Login"}</Link>
-            </Button>
+            {!isLoggedIn &&
+              <Button variant="ghost" asChild>
+                <Link to={"/login"}>Login</Link>
+              </Button>
+            }
+            {isLoggedIn &&
+              <AlertDialog>
+                <Button variant="ghost" asChild>
+                  <AlertDialogTrigger>Logout</AlertDialogTrigger>
+                </Button>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure to logout?</AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogDescription>
+                    After logging out, you need to login again to access the application.
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>
+                      <Link to={"/"}>Continue</Link>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            }
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
               {theme === "dark" ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
             </Button>
           </div>
         </div>
-      </nav>
+      </nav >
       <main className="flex-grow w-full transform translate-y-16">
         <div className="container mx-auto px-4 py-8">
           <Outlet />
@@ -48,7 +82,7 @@ function Layout() {
           <p>&copy; 2024 CCTV Logger. All rights reserved.</p>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
 

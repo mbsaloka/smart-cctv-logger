@@ -72,6 +72,20 @@ function LogsDashboard({ isShowStarred }) {
 
   const displayedLogs = isShowStarred ? filteredLogs.filter(log => log.starred) : filteredLogs;
 
+  const handlePrev = () => {
+    const currentIndex = displayedLogs.findIndex(log => log.id === selectedLog.id);
+    if (currentIndex > 0) {
+      setSelectedLog(displayedLogs[currentIndex - 1]);
+    }
+  };
+
+  const handleNext = () => {
+    const currentIndex = displayedLogs.findIndex(log => log.id === selectedLog.id);
+    if (currentIndex < displayedLogs.length - 1) {
+      setSelectedLog(displayedLogs[currentIndex + 1]);
+    }
+  };
+
   return (
     <div className="space-y-6 w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
@@ -151,7 +165,7 @@ function LogsDashboard({ isShowStarred }) {
         </div>
       )}
       {selectedLog && (
-        <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} />
+        <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} handlePrev={handlePrev} handleNext={handleNext} />
       )}
     </div>
   );

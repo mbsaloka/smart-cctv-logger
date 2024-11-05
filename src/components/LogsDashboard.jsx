@@ -1,18 +1,13 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Star, Grid, List, Filter } from 'lucide-react';
+import { Grid, List } from 'lucide-react';
 import LogDetailModal from '@/components/LogDetailModal';
-import DownloadButton from '@/components/DownloadButton';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import FilterAccordion from '@/components/FilterAccordion';
+import LogList from '@/components/LogList';
+import LogGrid from '@/components/LogGrid';
 
 // Mock data for logs
 const mockLogs = [
@@ -24,29 +19,26 @@ const mockLogs = [
   { id: 6, image: '/placeholder.svg?height=100&width=100', date: '2024-10-29', time: '12:30:00', info: 'Student entered', starred: true },
 ];
 
-function LogsDashboard({ isShowStarred }) {
+function LogsDashboard({ isShowStarred = false }) {
   const [logs, setLogs] = useState(mockLogs);
   const [view, setView] = useState('gallery');
   const [sortBy, setSortBy] = useState('date');
   const [search, setSearch] = useState('');
   const [selectedLog, setSelectedLog] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/images')
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        const newLogs = data.map((log) => {
-          return {
-            id: log._id,
-            image: log.imageUrl,
-            date: log.date.substring(0, 10),
-            time: log.time,
-            info: "Student entered",
-            starred: false,
-          };
-        });
+        const newLogs = data.map((log) => ({
+          id: log._id,
+          image: log.imageUrl,
+          date: log.date.substring(0, 10),
+          time: log.time,
+          info: "Student entered",
+          starred: false,
+        }));
         setLogs(newLogs);
       })
       .catch((err) => {
@@ -61,7 +53,6 @@ function LogsDashboard({ isShowStarred }) {
 
   const handleSearch = (value) => {
     setSearch(value);
-    // Implement search logic here
   };
 
   const handleStar = (id) => {
@@ -71,9 +62,10 @@ function LogsDashboard({ isShowStarred }) {
   };
 
   const filteredLogs = logs.filter(log =>
-    log.info.toLowerCase().includes(search.toLowerCase()) ||
-    log.date.includes(search) ||
-    log.time.includes(search)
+    (log.info.toLowerCase().includes(search.toLowerCase()) ||
+      log.date.includes(search) ||
+      log.time.includes(search)) &&
+    (!selectedDate || log.date === format(selectedDate, 'yyyy-MM-dd'))
   );
 
   const displayedLogs = isShowStarred ? filteredLogs.filter(log => log.starred) : filteredLogs;
@@ -95,92 +87,22 @@ function LogsDashboard({ isShowStarred }) {
   return (
     <div className="space-y-6 w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div className="flex">
-          <Filter className="mx-1 mt-[18.5px]" size={18} />
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-base">
-                <div className="mr-3 ml-2">Apply Filter</div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                  <Input
-                    placeholder="Search logs..."
-                    value={search}
-                    onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full sm:w-64"
-                  />
-                  <Select onValueChange={handleSort} defaultValue={sortBy}>
-                    <SelectTrigger className="w-full sm:w-[180px]">
-                      <SelectValue placeholder="Sort by" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="date">Date</SelectItem>
-                      <SelectItem value="time">Time</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
+        <FilterAccordion
+          search={search}
+          handleSearch={handleSearch}
+          sortBy={sortBy}
+          handleSort={handleSort}
+          setSelectedDate={setSelectedDate}
+        />
         {view === "list" ?
           <Button variant="outline" onClick={() => setView('gallery')}><Grid className="mr-2 h-4 w-4" />Gallery</Button> :
           <Button variant="outline" onClick={() => setView('list')}><List className="mr-2 h-4 w-4" />List</Button>
         }
       </div>
       {view === 'list' ? (
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Image</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Info</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {displayedLogs.map(log => (
-                <TableRow key={log.id}>
-                  <TableCell>
-                    <img src={log.image} alt="CCTV capture" className="w-16 h-16 object-cover rounded cursor-pointer" onClick={() => setSelectedLog(log)} />
-                  </TableCell>
-                  <TableCell>{log.date}</TableCell>
-                  <TableCell>{log.time}</TableCell>
-                  <TableCell>{log.info}</TableCell>
-                  <TableCell>
-                    <Button variant="ghost" onClick={() => handleStar(log.id)}>
-                      <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
-                    </Button>
-                    <DownloadButton log={log} variant="ghost" type="icon" />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        <LogList logs={displayedLogs} handleStar={handleStar} setSelectedLog={setSelectedLog} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {displayedLogs.map(log => (
-            <Card key={log.id} className="flex flex-col">
-              <CardContent className="p-4 flex-grow">
-                <img src={log.image} alt="CCTV capture" className="w-full h-48 object-cover rounded mb-4 cursor-pointer" onClick={() => {
-                  setSelectedLog(log);
-                }} />
-                <p className="font-semibold">{log.date} {log.time}</p>
-                <p className="mt-2">{log.info}</p>
-              </CardContent>
-              <CardFooter className="justify-between">
-                <Button variant="ghost" onClick={() => handleStar(log.id)}>
-                  <Star className={log.starred ? "fill-yellow-400 h-4 w-4" : "h-4 w-4"} />
-                </Button>
-                <DownloadButton log={log} variant="ghost" type="icon" />
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        <LogGrid logs={displayedLogs} handleStar={handleStar} setSelectedLog={setSelectedLog} />
       )}
       {selectedLog && (
         <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} handlePrev={handlePrev} handleNext={handleNext} />

@@ -37,7 +37,7 @@ function LogsDashboard({ isShowStarred = false }) {
           date: log.date.substring(0, 10),
           time: log.time,
           info: "Student entered",
-          starred: false,
+          starred: log.starred,
         }));
         setLogs(newLogs);
       })
@@ -59,6 +59,20 @@ function LogsDashboard({ isShowStarred = false }) {
     setLogs(logs.map(log =>
       log.id === id ? { ...log, starred: !log.starred } : log
     ));
+    fetch(`http://localhost:3000/images/${id}/star`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ starred: !logs.find(log => log.id === id).starred }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const filteredLogs = logs.filter(log =>

@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import LogsPage from './pages/LogsPage';
+import MonitoringPage from './pages/MonitoringPage';
 import LogsDashboard from './components/LogsDashboard';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="logs" element={<LogsPage />} />
             <Route path="dashboard" element={<LogsDashboard />} />
+            <Route path="monitoring" element={<MonitoringPage />} />
           </Route>
         </Routes>
       </Router>

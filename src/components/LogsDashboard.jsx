@@ -25,7 +25,7 @@ function LogsDashboard({ isShowStarred = false }) {
   const [sortBy, setSortBy] = useState('date');
   const [search, setSearch] = useState('');
   const [selectedLog, setSelectedLog] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState({ startDate: null, endDate: null });
 
   useEffect(() => {
     fetch('http://localhost:3000/images')
@@ -79,7 +79,9 @@ function LogsDashboard({ isShowStarred = false }) {
     (log.info.toLowerCase().includes(search.toLowerCase()) ||
       log.date.includes(search) ||
       log.time.includes(search)) &&
-    (!selectedDate || log.date === format(selectedDate, 'yyyy-MM-dd'))
+    (!selectedDate.startDate || !selectedDate.endDate ||
+      (new Date(log.date) >= new Date(selectedDate.startDate) &&
+        new Date(log.date) <= new Date(selectedDate.endDate)))
   );
 
   const displayedLogs = isShowStarred ? filteredLogs.filter(log => log.starred) : filteredLogs;

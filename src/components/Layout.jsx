@@ -1,7 +1,8 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
-import { Cctv, Moon, Sun } from 'lucide-react';
+import { Cctv, Menu, Moon, Sun } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,22 +17,51 @@ import {
 
 function Layout() {
   const { theme, setTheme } = useTheme();
-
   const location = useLocation();
   const isLoggedIn = location.pathname !== "/login" && location.pathname !== "/";
+
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
+  const LogoutDialog = ({ isMobile = false }) => (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" className="justify-start">Logout</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+        </AlertDialogHeader>
+        <AlertDialogDescription>
+          After logging out, you&apos;ll need to login again to access the application.
+        </AlertDialogDescription>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction asChild>
+            {isMobile ? (
+              <SheetClose asChild>
+                <Link to="/">Logout</Link>
+              </SheetClose>
+            ) : (
+              <Link to="/">Logout</Link>
+            )}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
       <nav className={`fixed w-full z-20 top-0 start-0 border-b ${theme === "light" ? "bg-primary text-primary-foreground" : "bg-background text-primary"}`}>
-        <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-2xl flex items-center justify-between mx-auto p-4">
           <Link to={isLoggedIn ? "/home" : "/"} className="flex items-center space-x-3 rtl:space-x-reverse">
-            <Cctv size={32} className="text-orange-400" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">CCTV Logger</span>
+            <Cctv size={28} className="text-orange-400" />
+            <span className="sm:text-2xl self-center text-xl font-semibold whitespace-nowrap bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">CCTV Logger</span>
           </Link>
 
-          <div className="flex md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center space-x-3 md:space-x-4 rtl:space-x-reverse flex-1 justify-center">
             {isLoggedIn && (
-              <div className="space-x-3 md:space-x-4 ">
+              <>
                 <Button variant="ghost" asChild>
                   <Link to="/home">Home</Link>
                 </Button>
@@ -41,40 +71,74 @@ function Layout() {
                 <Button variant="ghost" asChild>
                   <Link to="/monitoring">Monitoring</Link>
                 </Button>
-              </div>
+              </>
             )}
-            {!isLoggedIn &&
+          </div>
+
+          <div className="flex items-center space-x-3 md:order-2">
+            {!isLoggedIn && (
               <Button variant="default" asChild>
-                <Link to={"/login"}>Login</Link>
+                <Link to="/login">Login</Link>
               </Button>
-            }
-            {isLoggedIn &&
-              <AlertDialog>
-                <Button variant="ghost" asChild>
-                  <AlertDialogTrigger>Logout</AlertDialogTrigger>
-                </Button>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure to logout?</AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogDescription>
-                    After logging out, you need to login again to access the application.
-                  </AlertDialogDescription>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>
-                      <Link to={"/"}>Logout</Link>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            }
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+            )}
+            <div className="hidden md:flex">
+              {isLoggedIn && <LogoutDialog />}
+            </div>
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="hidden md:flex">
               {theme === "dark" ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
             </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" className="md:hidden">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="flex flex-col space-y-1 p-4 pt-10">
+                {isLoggedIn ? (
+                  <>
+                    <SheetClose asChild>
+                      <Button variant="ghost" asChild className="justify-start">
+                        <Link to="/home">Home</Link>
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" asChild className="justify-start">
+                        <Link to="/logs">Logs</Link>
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" asChild className="justify-start">
+                        <Link to="/monitoring">Monitoring</Link>
+                      </Button>
+                    </SheetClose>
+                    <LogoutDialog isMobile />
+                  </>
+                ) : (
+                  <SheetClose asChild>
+                    <Button variant="default" asChild className="justify-start">
+                      <Link to="/login">Login</Link>
+                    </Button>
+                  </SheetClose>
+                )}
+                <Button variant="ghost" className="justify-start" onClick={toggleTheme}>
+                  {theme === "dark" ? (
+                    <>
+                      <Sun className="h-[1.2rem] w-[1.2rem] mr-2" />
+                      Light mode
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="h-[1.2rem] w-[1.2rem] mr-2" />
+                      Dark mode
+                    </>
+                  )}
+                </Button>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-      </nav >
+      </nav>
+
       <main className="flex-grow w-full transform translate-y-16">
         <div className="container mx-auto px-4 py-8">
           <Outlet />
@@ -85,7 +149,7 @@ function Layout() {
           <p>&copy; 2024 CCTV Logger. All rights reserved.</p>
         </div>
       </footer>
-    </div >
+    </div>
   );
 }
 

@@ -31,17 +31,20 @@ function Layout() {
 
           <div className="flex md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
             {isLoggedIn && (
-              <div className="space-x-3 md:space-x-4">
+              <div className="space-x-3 md:space-x-4 ">
                 <Button variant="ghost" asChild>
                   <Link to="/home">Home</Link>
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link to="/logs">Logs</Link>
                 </Button>
+                <Button variant="ghost" asChild>
+                  <Link to="/monitoring">Monitoring</Link>
+                </Button>
               </div>
             )}
             {!isLoggedIn &&
-              <Button variant="ghost" asChild>
+              <Button variant="default" asChild>
                 <Link to={"/login"}>Login</Link>
               </Button>
             }
@@ -60,7 +63,7 @@ function Layout() {
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction>
-                      <Link to={"/"}>Continue</Link>
+                      <Link to={"/"}>Logout</Link>
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

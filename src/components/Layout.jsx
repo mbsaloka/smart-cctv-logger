@@ -66,10 +66,10 @@ function Layout() {
                   <Link to="/home">Home</Link>
                 </Button>
                 <Button variant="ghost" asChild>
-                  <Link to="/logs">Logs</Link>
+                  <Link to="/monitoring">Monitoring</Link>
                 </Button>
                 <Button variant="ghost" asChild>
-                  <Link to="/monitoring">Monitoring</Link>
+                  <Link to="/logs">Logs</Link>
                 </Button>
               </>
             )}

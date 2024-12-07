@@ -10,14 +10,17 @@
 // 	protoc              v4.25.1
 // source: cctv.proto
 
+
 /* eslint-disable */
 // @ts-nocheck
 
+
+
 const grpc = {};
-grpc.web = require("grpc-web");
+grpc.web = require('grpc-web');
 
 const proto = {};
-proto.cctv = require("./cctv_pb.js");
+proto.cctv = require('./cctv_pb.js');
 
 /**
  * @param {string} hostname
@@ -27,9 +30,10 @@ proto.cctv = require("./cctv_pb.js");
  * @struct
  * @final
  */
-proto.cctv.MonitoringClient = function (hostname, credentials, options) {
+proto.cctv.MonitoringClient =
+    function(hostname, credentials, options) {
   if (!options) options = {};
-  options.format = "text";
+  options.format = 'text';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
@@ -39,8 +43,10 @@ proto.cctv.MonitoringClient = function (hostname, credentials, options) {
   /**
    * @private @const {string} The hostname
    */
-  this.hostname_ = hostname.replace(/\/+$/, "");
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
 };
+
 
 /**
  * @param {string} hostname
@@ -50,9 +56,10 @@ proto.cctv.MonitoringClient = function (hostname, credentials, options) {
  * @struct
  * @final
  */
-proto.cctv.MonitoringPromiseClient = function (hostname, credentials, options) {
+proto.cctv.MonitoringPromiseClient =
+    function(hostname, credentials, options) {
   if (!options) options = {};
-  options.format = "text";
+  options.format = 'text';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
@@ -62,8 +69,10 @@ proto.cctv.MonitoringPromiseClient = function (hostname, credentials, options) {
   /**
    * @private @const {string} The hostname
    */
-  this.hostname_ = hostname.replace(/\/+$/, "");
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
 };
+
 
 /**
  * @const
@@ -72,7 +81,7 @@ proto.cctv.MonitoringPromiseClient = function (hostname, credentials, options) {
  *   !proto.cctv.Image>}
  */
 const methodDescriptor_Monitoring_GetImage = new grpc.web.MethodDescriptor(
-  "/cctv.Monitoring/GetImage",
+  '/cctv.Monitoring/GetImage',
   grpc.web.MethodType.UNARY,
   proto.cctv.Empty,
   proto.cctv.Image,
@@ -80,11 +89,12 @@ const methodDescriptor_Monitoring_GetImage = new grpc.web.MethodDescriptor(
    * @param {!proto.cctv.Empty} request
    * @return {!Uint8Array}
    */
-  function (request) {
+  function(request) {
     return request.serializeBinary();
   },
   proto.cctv.Image.deserializeBinary
 );
+
 
 /**
  * @param {!proto.cctv.Empty} request The
@@ -96,19 +106,16 @@ const methodDescriptor_Monitoring_GetImage = new grpc.web.MethodDescriptor(
  * @return {!grpc.web.ClientReadableStream<!proto.cctv.Image>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.cctv.MonitoringClient.prototype.getImage = function (
-  request,
-  metadata,
-  callback
-) {
-  return this.client_.rpcCall(
-    this.hostname_ + "/cctv.Monitoring/GetImage",
-    request,
-    metadata || {},
-    methodDescriptor_Monitoring_GetImage,
-    callback
-  );
+proto.cctv.MonitoringClient.prototype.getImage =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cctv.Monitoring/GetImage',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetImage,
+      callback);
 };
+
 
 /**
  * @param {!proto.cctv.Empty} request The
@@ -118,16 +125,196 @@ proto.cctv.MonitoringClient.prototype.getImage = function (
  * @return {!Promise<!proto.cctv.Image>}
  *     Promise that resolves to the response
  */
-proto.cctv.MonitoringPromiseClient.prototype.getImage = function (
-  request,
-  metadata
-) {
-  return this.client_.unaryCall(
-    this.hostname_ + "/cctv.Monitoring/GetImage",
-    request,
-    metadata || {},
-    methodDescriptor_Monitoring_GetImage
-  );
+proto.cctv.MonitoringPromiseClient.prototype.getImage =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cctv.Monitoring/GetImage',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetImage);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cctv.Empty,
+ *   !proto.cctv.Detection>}
+ */
+const methodDescriptor_Monitoring_GetDetection = new grpc.web.MethodDescriptor(
+  '/cctv.Monitoring/GetDetection',
+  grpc.web.MethodType.UNARY,
+  proto.cctv.Empty,
+  proto.cctv.Detection,
+  /**
+   * @param {!proto.cctv.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cctv.Detection.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cctv.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.cctv.Detection)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cctv.Detection>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cctv.MonitoringClient.prototype.getDetection =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cctv.Monitoring/GetDetection',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetDetection,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cctv.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cctv.Detection>}
+ *     Promise that resolves to the response
+ */
+proto.cctv.MonitoringPromiseClient.prototype.getDetection =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cctv.Monitoring/GetDetection',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetDetection);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cctv.Empty,
+ *   !proto.cctv.CameraSettings>}
+ */
+const methodDescriptor_Monitoring_GetCameraSettings = new grpc.web.MethodDescriptor(
+  '/cctv.Monitoring/GetCameraSettings',
+  grpc.web.MethodType.UNARY,
+  proto.cctv.Empty,
+  proto.cctv.CameraSettings,
+  /**
+   * @param {!proto.cctv.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cctv.CameraSettings.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cctv.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.cctv.CameraSettings)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cctv.CameraSettings>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cctv.MonitoringClient.prototype.getCameraSettings =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cctv.Monitoring/GetCameraSettings',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetCameraSettings,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cctv.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cctv.CameraSettings>}
+ *     Promise that resolves to the response
+ */
+proto.cctv.MonitoringPromiseClient.prototype.getCameraSettings =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cctv.Monitoring/GetCameraSettings',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_GetCameraSettings);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cctv.CameraSettings,
+ *   !proto.cctv.Empty>}
+ */
+const methodDescriptor_Monitoring_SetCameraSettings = new grpc.web.MethodDescriptor(
+  '/cctv.Monitoring/SetCameraSettings',
+  grpc.web.MethodType.UNARY,
+  proto.cctv.CameraSettings,
+  proto.cctv.Empty,
+  /**
+   * @param {!proto.cctv.CameraSettings} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cctv.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cctv.CameraSettings} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.cctv.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cctv.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cctv.MonitoringClient.prototype.setCameraSettings =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cctv.Monitoring/SetCameraSettings',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_SetCameraSettings,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cctv.CameraSettings} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cctv.Empty>}
+ *     Promise that resolves to the response
+ */
+proto.cctv.MonitoringPromiseClient.prototype.setCameraSettings =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cctv.Monitoring/SetCameraSettings',
+      request,
+      metadata || {},
+      methodDescriptor_Monitoring_SetCameraSettings);
 };
 
 export default proto.cctv;

@@ -10,14 +10,65 @@ function MonitoringPage() {
   const MONITORING_GRPC_WEB_API_URL = import.meta.env.VITE_MONITORING_GRPC_WEB_API_URL;
   const client = new cctv.MonitoringClient(MONITORING_GRPC_WEB_API_URL, null, null);
   const emptyRequest = new cctv.Empty();
+  const configRequest = new cctv.CameraSettings();
 
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const minMaxValue = {
+    brightness: { min: 0, max: 255 },
+    contrast: { min: 0, max: 255 },
+    saturation: { min: 0, max: 255 },
+  };
   const [cameraSettings, setCameraSettings] = useState({
-    brightness: 50,
-    contrast: 50,
-    saturation: 50,
+    brightness: -1,
+    contrast: -1,
+    saturation: -1,
   });
   const [peopleDetected, setPeopleDetected] = useState(0);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  const getDetection = () => {
+    client.getDetection(emptyRequest, {}, async (err, response) => {
+      if (err) {
+        console.error(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      } else {
+        try {
+          setPeopleDetected(response.getCount());
+        } catch (error) {
+          console.error('Error processing detected person count:', error);
+        }
+      }
+    });
+  };
+
+  const getCameraSettings = () => {
+    client.getCameraSettings(emptyRequest, {}, async (err, response) => {
+      if (err) {
+        console.error(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      } else {
+        try {
+          setCameraSettings({
+            brightness: response.getBrightness(),
+            contrast: response.getContrast(),
+            saturation: response.getSaturation(),
+          });
+        } catch (error) {
+          console.error('Error fetching camera settings:', error);
+        }
+      }
+    });
+  };
+
+  const handleSetCameraSettings = () => {
+    configRequest.setBrightness(cameraSettings.brightness);
+    configRequest.setContrast(cameraSettings.contrast);
+    configRequest.setSaturation(cameraSettings.saturation);
+
+    client.setCameraSettings(configRequest, {}, async (err, response) => {
+      if (err) {
+        console.error(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      }
+    });
+  };
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -33,18 +84,29 @@ function MonitoringPage() {
 
   const handleSettingChange = (setting, value) => {
     setCameraSettings(prev => ({ ...prev, [setting]: value }));
-    // Here you would typically send the new settings to your backend
-    console.log(`Setting ${setting} changed to ${value}`);
   };
 
   useEffect(() => {
-    // Simulating people detection
-    const interval = setInterval(() => {
-      setPeopleDetected(Math.floor(Math.random() * 10));
-    }, 5000);
+    const intervalId = setInterval(getDetection, 33);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timeInterval);
+  }, []);
+
+  useEffect(() => {
+    getCameraSettings();
+  }, []);
+
+  useEffect(() => {
+    handleSetCameraSettings();
+  }, [cameraSettings]);
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -71,8 +133,8 @@ function MonitoringPage() {
               <CardTitle>Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <p>Date: {new Date().toLocaleDateString()}</p>
-              <p>Time: {new Date().toLocaleTimeString()}</p>
+              <p>Date: {currentTime.toLocaleDateString()}</p>
+              <p>Time: {currentTime.toLocaleTimeString()}</p>
               <div className="flex items-center">
                 <Users className="mr-2 h-4 w-4" />
                 <p>People Detected: {peopleDetected}</p>
@@ -90,8 +152,8 @@ function MonitoringPage() {
                 </label>
                 <Slider
                   id="brightness"
-                  min={0}
-                  max={100}
+                  min={minMaxValue.brightness.min}
+                  max={minMaxValue.brightness.max}
                   step={1}
                   value={[cameraSettings.brightness]}
                   onValueChange={(value) => handleSettingChange('brightness', value[0])}
@@ -103,8 +165,8 @@ function MonitoringPage() {
                 </label>
                 <Slider
                   id="contrast"
-                  min={0}
-                  max={100}
+                  min={minMaxValue.contrast.min}
+                  max={minMaxValue.contrast.max}
                   step={1}
                   value={[cameraSettings.contrast]}
                   onValueChange={(value) => handleSettingChange('contrast', value[0])}
@@ -116,8 +178,8 @@ function MonitoringPage() {
                 </label>
                 <Slider
                   id="saturation"
-                  min={0}
-                  max={100}
+                  min={minMaxValue.saturation.min}
+                  max={minMaxValue.saturation.max}
                   step={1}
                   value={[cameraSettings.saturation]}
                   onValueChange={(value) => handleSettingChange('saturation', value[0])}

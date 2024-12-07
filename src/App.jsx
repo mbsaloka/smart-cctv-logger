@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from "./components/ThemeProvider";
 import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
@@ -7,6 +7,18 @@ import LoginPage from './pages/LoginPage';
 import LogsPage from './pages/LogsPage';
 import MonitoringPage from './pages/MonitoringPage';
 import LogsDashboard from './components/LogsDashboard';
+import RegisterPage from './pages/RegisterPage';
+
+const RequireAuth = ({ children }) => {
+  const location = useLocation();
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
 
 export default function App() {
   return (
@@ -17,9 +29,18 @@ export default function App() {
             <Route index element={<LandingPage />} />
             <Route path="home" element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
-            <Route path="logs" element={<LogsPage />} />
-            <Route path="dashboard" element={<LogsDashboard />} />
-            <Route path="monitoring" element={<MonitoringPage />} />
+            <Route path="register" element={<RegisterPage />} />
+
+            <Route path="logs" element={
+              <RequireAuth>
+                <LogsPage />
+              </RequireAuth>
+            } />
+            <Route path="monitoring" element={
+              <RequireAuth>
+                <MonitoringPage />
+              </RequireAuth>
+            } />
           </Route>
         </Routes>
       </Router>

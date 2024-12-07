@@ -28,15 +28,18 @@ function LogsDashboard({ isShowStarred = false }) {
   const [selectedDate, setSelectedDate] = useState({ startDate: null, endDate: null });
 
   useEffect(() => {
-    fetch('http://localhost:3000/images')
-      .then((res) => res.json())
+    fetch('http://localhost:3000/images', {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem('token')
+      },
+    }).then((res) => res.json())
       .then((data) => {
         const newLogs = data.map((log) => ({
           id: log._id,
           image: log.imageUrl,
           date: log.date.substring(0, 10),
           time: log.time,
-          info: "Student entered",
+          info: log.totalEntity + ' people detected',
           starred: log.starred,
         }));
         setLogs(newLogs);
@@ -59,10 +62,11 @@ function LogsDashboard({ isShowStarred = false }) {
     setLogs(logs.map(log =>
       log.id === id ? { ...log, starred: !log.starred } : log
     ));
-    fetch(`http://localhost:3000/images/${id}/star`, {
+    fetch(`http://localhost:3000/images/favorite/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer " + localStorage.getItem('token'),
       },
       body: JSON.stringify({ starred: !logs.find(log => log.id === id).starred }),
     })

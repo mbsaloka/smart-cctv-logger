@@ -22,6 +22,10 @@ function Layout() {
 
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+  }
+
   const LogoutDialog = ({ isMobile = false }) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -39,10 +43,10 @@ function Layout() {
           <AlertDialogAction asChild>
             {isMobile ? (
               <SheetClose asChild>
-                <Link to="/">Logout</Link>
+                <Link to="/" onClick={handleLogout}>Logout</Link>
               </SheetClose>
             ) : (
-              <Link to="/">Logout</Link>
+              <Link to="/" onClick={handleLogout}>Logout</Link>
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -18,7 +18,7 @@ import {
 function Layout() {
   const { theme, setTheme } = useTheme();
   const location = useLocation();
-  const isLoggedIn = location.pathname !== "/login" && location.pathname !== "/" && location.pathname !== "/register";
+  const isLoggedIn = location.pathname !== "/login" && location.pathname !== "/register" && localStorage.getItem('token') !== null;
 
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
@@ -58,7 +58,7 @@ function Layout() {
     <div className="flex flex-col min-h-screen">
       <nav className={`fixed w-full z-20 top-0 start-0 border-b ${theme === "light" ? "bg-primary text-primary-foreground" : "bg-background text-primary"}`}>
         <div className="max-w-screen-2xl flex items-center justify-between mx-auto p-4">
-          <Link to={isLoggedIn ? "/home" : "/"} className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Cctv size={28} className="text-orange-400" />
             <span className="sm:text-2xl self-center text-xl font-semibold whitespace-nowrap bg-gradient-to-r from-orange-400 to-red-600 bg-clip-text text-transparent">CCTV Logger</span>
           </Link>
@@ -67,7 +67,7 @@ function Layout() {
             {isLoggedIn && (
               <>
                 <Button variant="ghost" asChild>
-                  <Link to="/home">Home</Link>
+                  <Link to="/">Home</Link>
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link to="/monitoring">Monitoring</Link>
@@ -102,7 +102,7 @@ function Layout() {
                   <>
                     <SheetClose asChild>
                       <Button variant="ghost" asChild className="justify-start">
-                        <Link to="/home">Home</Link>
+                        <Link to="/">Home</Link>
                       </Button>
                     </SheetClose>
                     <SheetClose asChild>

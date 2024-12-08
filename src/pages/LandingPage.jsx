@@ -6,22 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Camera, Clock, Search, Users, BarChart, SlidersHorizontal } from 'lucide-react';
 
-function HomePage() {
+function LandingPage() {
   const [showContent, setShowContent] = useState(true);
   const [ref, inView] = useInView({
     threshold: 0.3,
   });
+
+  const isLoggedIn = localStorage.getItem('token') !== null;
 
   useEffect(() => {
     setShowContent(inView);
   }, [inView]);
 
   const features = [
-    { icon: Camera, title: "Real-time Monitoring", description: "Get instant alerts and live feed from your CCTV cameras, ensuring you never miss a moment." },
-    { icon: Clock, title: "Attendance Tracking", description: "Automatically log employee attendance with facial recognition technology." },
-    { icon: Search, title: "Advanced Search", description: "Quickly find specific events or people with our powerful search algorithms." },
+    { icon: Camera, title: "Real-time Monitoring", description: "Seamlessly watch live video feeds from multiple cameras, providing instant awareness for any situation." },
+    { icon: Clock, title: "Attendance Logging", description: "Precisely track people's attendance and timestamps with AI-powered detection." },
+    { icon: Search, title: "Advanced Search", description: "Quickly find specific events with our powerful search algorithms." },
     { icon: SlidersHorizontal, title: "Customizable Capture Settings", description: "Full control to configure CCTV capture preferences directly through an intuitive web interface." },
-    { icon: Users, title: "Multi-User Access", description: "Grant different levels of access to team members for collaborative monitoring." },
+    { icon: Users, title: "Multi-User Access", description: "Enable team members to collaborate by granting access to multiple accounts for effective monitoring." },
     { icon: BarChart, title: "Analytics Dashboard", description: "Gain insights from your CCTV data with our comprehensive analytics tools." },
   ];
 
@@ -32,11 +34,11 @@ function HomePage() {
           Smart CCTV Logger: Next-Gen Surveillance
         </h1>
         <p className="text-xl text-muted-foreground max-w-[700px] mx-auto">
-          Revolutionize your security with AI-powered CCTV logging and monitoring. Get real-time insights, automate attendance, and enhance your overall security infrastructure.
+          Revolutionize your security with AI-powered CCTV logging and monitoring. Get real-time insights, attendance logging, and enhance your overall security infrastructure.
         </p>
         <div className="flex justify-center gap-4">
           <Button asChild size="lg">
-            <Link to="/register">Get Started</Link>
+            {isLoggedIn ? <Link to="/logs">View Logs</Link> : <Link to="/register">Get Started</Link>}
           </Button>
           <Button asChild size="lg" variant="outline">
             <ScrollLink to='learn-more' smooth={true} duration={500}>Discover Features</ScrollLink>
@@ -68,6 +70,7 @@ function HomePage() {
           </div>
         </section>
 
+        {!isLoggedIn && (
         <section className={`py-20 bg-muted transition-all duration-500 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="container mx-auto text-center space-y-8 max-w-7xl px-4">
             <h2 className="text-3xl font-bold tracking-tight lg:text-4xl">Ready to Upgrade Your Security?</h2>
@@ -79,9 +82,10 @@ function HomePage() {
             </Button>
           </div>
         </section>
+        )}
       </div>
     </div>
   );
 }
 
-export default HomePage;
+export default LandingPage;

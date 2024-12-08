@@ -18,7 +18,7 @@ import {
 function Layout() {
   const { theme, setTheme } = useTheme();
   const location = useLocation();
-  const isLoggedIn = location.pathname !== "/login" && location.pathname !== "/";
+  const isLoggedIn = location.pathname !== "/login" && location.pathname !== "/" && location.pathname !== "/register";
 
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 

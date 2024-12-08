@@ -29,7 +29,13 @@ function LoginPage() {
       const result = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', result.token);
+        const expires = new Date(Date.now() + 1000 * 60 * 60);
+        const data = {
+          token: result.token,
+          expires: expires,
+        };
+
+        localStorage.setItem('token', JSON.stringify(data));
         navigate('/logs');
       } else {
         setErrorMessage(result.message);

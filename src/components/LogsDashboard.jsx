@@ -30,7 +30,7 @@ function LogsDashboard({ isShowStarred = false }) {
   useEffect(() => {
     fetch('http://localhost:3000/images', {
       headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token')
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem('token')).token
       },
     }).then((res) => res.json())
       .then((data) => {
@@ -66,7 +66,7 @@ function LogsDashboard({ isShowStarred = false }) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        "Authorization": "Bearer " + localStorage.getItem('token'),
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem('token')).token,
       },
       body: JSON.stringify({ starred: !logs.find(log => log.id === id).starred }),
     })

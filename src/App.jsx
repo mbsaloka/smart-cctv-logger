@@ -9,9 +9,15 @@ import RegisterPage from './pages/RegisterPage';
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const token = localStorage.getItem('token');
+  const token = JSON.parse(localStorage.getItem('token'));
 
   if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  const currentTime = Date.now();
+  if (currentTime > token.expires) {
+    localStorage.removeItem('token');
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

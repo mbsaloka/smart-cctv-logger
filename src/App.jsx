@@ -16,7 +16,8 @@ const RequireAuth = ({ children }) => {
   }
 
   const currentTime = Date.now();
-  if (currentTime > token.expires) {
+  const expiresTime = new Date(token.expires).getTime();
+  if (!expiresTime || currentTime > expiresTime) {
     localStorage.removeItem('token');
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

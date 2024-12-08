@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 function LoginPage() {
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -15,7 +16,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/users/login', {
+      const response = await fetch(BACKEND_API_URL + '/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

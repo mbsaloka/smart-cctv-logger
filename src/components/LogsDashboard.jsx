@@ -20,6 +20,7 @@ const mockLogs = [
 ];
 
 function LogsDashboard({ isShowStarred = false }) {
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
   const [logs, setLogs] = useState(mockLogs);
   const [view, setView] = useState('gallery');
   const [sortBy, setSortBy] = useState('date');
@@ -28,7 +29,7 @@ function LogsDashboard({ isShowStarred = false }) {
   const [selectedDate, setSelectedDate] = useState({ startDate: null, endDate: null });
 
   useEffect(() => {
-    fetch('http://localhost:3000/images', {
+    fetch(BACKEND_API_URL + '/images', {
       headers: {
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem('token')).token
       },
@@ -36,7 +37,7 @@ function LogsDashboard({ isShowStarred = false }) {
       .then((data) => {
         const newLogs = data.map((log) => ({
           id: log._id,
-          image: log.imageUrl,
+          image: BACKEND_API_URL + log.imageUrl,
           date: log.date.substring(0, 10),
           time: log.time,
           info: log.totalEntity + ' people detected',
@@ -62,7 +63,7 @@ function LogsDashboard({ isShowStarred = false }) {
     setLogs(logs.map(log =>
       log.id === id ? { ...log, starred: !log.starred } : log
     ));
-    fetch(`http://localhost:3000/images/favorite/${id}`, {
+    fetch(BACKEND_API_URL + `/images/favorite/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

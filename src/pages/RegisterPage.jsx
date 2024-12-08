@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 function RegisterPage() {
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ function RegisterPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/users/register', {
+      const response = await fetch(BACKEND_API_URL + '/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

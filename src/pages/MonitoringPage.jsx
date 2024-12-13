@@ -87,7 +87,7 @@ function MonitoringPage() {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(getDetection, 33);
+    const intervalId = setInterval(getDetection, 100);
 
     return () => clearInterval(intervalId);
   }, []);

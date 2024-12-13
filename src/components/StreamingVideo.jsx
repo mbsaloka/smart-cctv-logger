@@ -22,6 +22,7 @@ function StreamingVideo({ client, request }) {
         setIsLoading(false);
       } else {
         try {
+          setError(null);
           const imageBytes = response.getData();
           const base64String = await BytesToBase64(imageBytes);
           const imageSrc = `data:image/jpeg;base64,${base64String}`;
@@ -37,7 +38,7 @@ function StreamingVideo({ client, request }) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(getImage, 33); // 33ms delay for ~30fps
+    const intervalId = setInterval(getImage, 100); // 33ms delay for ~30fps
 
     return () => clearInterval(intervalId); // Clear interval on component unmount
   }, []);
@@ -73,4 +74,3 @@ function StreamingVideo({ client, request }) {
 }
 
 export default StreamingVideo;
-

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Grid, List } from 'lucide-react';
 import LogDetailModal from '@/components/LogDetailModal';
@@ -11,12 +10,12 @@ import LogGrid from '@/components/LogGrid';
 
 // Mock data for logs
 const mockLogs = [
-  { id: 1, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:15:00', info: 'Student entered', starred: false },
-  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:20:00', info: 'Student entered', starred: true },
-  { id: 3, image: '/placeholder.svg?height=100&width=100', date: '2024-10-28', time: '10:25:00', info: 'Student entered', starred: false },
-  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-10-28', time: '10:30:00', info: 'Student entered', starred: true },
-  { id: 5, image: '/placeholder.svg?height=100&width=100', date: '2024-10-29', time: '11:30:00', info: 'Student entered', starred: true },
-  { id: 6, image: '/placeholder.svg?height=100&width=100', date: '2024-10-29', time: '12:30:00', info: 'Student entered', starred: true },
+  { id: 1, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:15:00', info: 'Dummy Data', starred: false },
+  { id: 2, image: '/placeholder.svg?height=100&width=100', date: '2024-10-27', time: '10:20:00', info: 'Dummy Data', starred: true },
+  { id: 3, image: '/placeholder.svg?height=100&width=100', date: '2024-10-28', time: '10:25:00', info: 'Dummy Data', starred: false },
+  { id: 4, image: '/placeholder.svg?height=100&width=100', date: '2024-10-28', time: '10:30:00', info: 'Dummy Data', starred: true },
+  { id: 5, image: '/placeholder.svg?height=100&width=100', date: '2024-10-29', time: '11:30:00', info: 'Dummy Data', starred: true },
+  { id: 6, image: '/placeholder.svg?height=100&width=100', date: '2024-10-29', time: '12:30:00', info: 'Dummy Data', starred: true },
 ];
 
 function LogsDashboard({ isShowStarred = false }) {

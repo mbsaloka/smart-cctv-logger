@@ -4,6 +4,9 @@ import { defineConfig } from "vite";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
 
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+  },
   plugins: [react(), viteCommonjs()],
   resolve: {
     alias: {

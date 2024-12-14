@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -77,7 +79,6 @@ theme: {
 			'accordion-up': 'accordion-up 0.2s ease-out'
 		}
 	}
-},
-plugins: [require("tailwindcss-animate")],
+}
 }
 

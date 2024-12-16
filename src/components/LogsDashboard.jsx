@@ -160,9 +160,9 @@ function LogsDashboard({ isShowStarred = false }) {
             value={logsPerPage}
             onChange={(e) => {
               setLogsPerPage(Number(e.target.value));
-              setCurrentPage(1); // Reset to first page when changing logs per page
+              setCurrentPage(1);
             }}
-            className="border rounded p-2"
+            className="bg-background border rounded p-2"
           >
             <option value={20}>20 per page</option>
             <option value={50}>50 per page</option>

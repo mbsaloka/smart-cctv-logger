@@ -66,7 +66,7 @@ function LoginPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">Username (Email)</Label>
               <Input
                 id="username"
                 type="text"

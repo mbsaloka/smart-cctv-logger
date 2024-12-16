@@ -7,7 +7,6 @@ import LogDetailModal from '@/components/LogDetailModal';
 import FilterAccordion from '@/components/FilterAccordion';
 import LogList from '@/components/LogList';
 import LogGrid from '@/components/LogGrid';
-// import BackToTopButton from '@/components/BackToTopButton';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 
 // Mock data for logs
@@ -30,6 +29,13 @@ function LogsDashboard({ isShowStarred = false }) {
   const [selectedDate, setSelectedDate] = useState({ startDate: null, endDate: null });
   const [currentPage, setCurrentPage] = useState(1);
   const [logsPerPage, setLogsPerPage] = useState(20);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetch(BACKEND_API_URL + '/images', {
@@ -100,7 +106,24 @@ function LogsDashboard({ isShowStarred = false }) {
   const indexOfFirstLog = indexOfLastLog - logsPerPage;
   const currentLogs = displayedLogs.slice(indexOfFirstLog, indexOfLastLog);
   const totalPages = Math.ceil(displayedLogs.length / logsPerPage);
+
+  const getVisiblePageNumbers = () => {
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(totalPages, currentPage + 2);
+
+    if (windowWidth < 640) {
+      return [currentPage];
+    } else if (windowWidth < 768) {
+      start = Math.max(1, currentPage - 1);
+      end = Math.min(totalPages, currentPage + 1);
+    }
+
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  };
+
   const LogsPagination = () => {
+    const visiblePageNumbers = getVisiblePageNumbers();
+
     return (
       <Pagination>
         <PaginationContent>
@@ -110,16 +133,32 @@ function LogsDashboard({ isShowStarred = false }) {
               disabled={currentPage === 1}
             />
           </PaginationItem>
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index}>
+          {currentPage > 3 && windowWidth >= 768 && (
+            <>
+              <PaginationItem>
+                <PaginationLink onClick={() => setCurrentPage(1)}>1</PaginationLink>
+              </PaginationItem>
+              {currentPage > 4 && <PaginationItem>...</PaginationItem>}
+            </>
+          )}
+          {visiblePageNumbers.map((pageNumber) => (
+            <PaginationItem key={pageNumber}>
               <PaginationLink
-                onClick={() => setCurrentPage(index + 1)}
-                isActive={currentPage === index + 1}
+                onClick={() => setCurrentPage(pageNumber)}
+                isActive={currentPage === pageNumber}
               >
-                {index + 1}
+                {pageNumber}
               </PaginationLink>
             </PaginationItem>
           ))}
+          {currentPage < totalPages - 2 && windowWidth >= 768 && (
+            <>
+              {currentPage < totalPages - 3 && <PaginationItem>...</PaginationItem>}
+              <PaginationItem>
+                <PaginationLink onClick={() => setCurrentPage(totalPages)}>{totalPages}</PaginationLink>
+              </PaginationItem>
+            </>
+          )}
           <PaginationItem>
             <PaginationNext
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
@@ -184,7 +223,6 @@ function LogsDashboard({ isShowStarred = false }) {
       {selectedLog && (
         <LogDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} handlePrev={handlePrev} handleNext={handleNext} />
       )}
-      {/* <BackToTopButton /> */}
     </div>
   );
 }

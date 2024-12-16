@@ -41,7 +41,7 @@
     "react-scroll": "^1.9.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "vite-plugin-commonjs": "^0.10.3",
+    "vite-plugin-commonjs": "^0.10.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
